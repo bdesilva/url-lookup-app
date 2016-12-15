@@ -1,0 +1,55 @@
+{
+  "name": "url-lookup-service",
+  "version": "0.0.1",
+  "description": "RESTFul server written in Node.js/Koa.js",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register --require babel-polyfill"
+  },
+  "author": "Ben De Silva <ben.p.desilva@gmail.com>",
+  "keywords": [
+    "koa",
+    "rest",
+    "server"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "babel-core": "^6.7.6",
+    "babel-eslint": "^4.1.3",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-decorators": "^6.8.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-block-scoping": "^6.7.1",
+    "babel-plugin-transform-es2015-template-literals": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "6.3.13",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-register": "^6.11.6",
+    "chai": "^3.5.0",
+    "eslint": "^2.6.0",
+    "eslint-plugin-babel": "^3.3.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-eslint": "^2.0.0",
+    "gulp-exec": "^2.1.2",
+    "gulp-if-else": "^1.0.3",
+    "gulp-shell": "^0.5.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "ignore-styles": "^4.0.0",
+    "isparta": "^4.0.0",
+    "istanbul": "^0.4.4",
+    "mocha": "^3.0.1",
+    "run-sequence": "^1.1.5",
+    "should": "^10.0.0"
+  },
+  "dependencies": {
+    "babel-cli": "^6.11.4",
+    "koa": "^2.0.0",
+    "koa-bodyparser": "^2.2.0",
+    "koa-cors": "0.0.16",
+    "koa-logger": "^1.3.0",
+    "koa-router": "^5.4.0"
+  }
+}

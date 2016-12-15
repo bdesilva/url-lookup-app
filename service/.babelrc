@@ -1,0 +1,4 @@
+{
+  "presets": [ "es2015", "stage-0" ],
+  "plugins": [ "babel-plugin-transform-decorators-legacy", "transform-async-to-generator", "transform-es2015-template-literals", "transform-es2015-block-scoping" ]
+}
