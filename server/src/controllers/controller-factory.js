@@ -1,8 +1,8 @@
+/* Factory class to ensure that a Singleton instance of a Controller is launched - verified by the Symbol feature */
+
 import BaseController from './base-controller';
 import { LoginController } from './login-controller';
 import { UrlInfoController } from './url-info-controller';
-
-/* Factory class to ensure that a Singleton instance of a Controller is launched - verified by the Symbol feature */
 
 export default class ControllerFactory extends BaseController {
     createController(controller) {

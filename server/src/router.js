@@ -1,3 +1,5 @@
+/* Router class */
+
 import KoaRouter from 'koa-router';
 import { Routes } from './routes';
 

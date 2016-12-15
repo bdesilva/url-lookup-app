@@ -1,3 +1,5 @@
+/* BaseController class */
+
 const singletonEnforcer = Symbol();
 const singletonMap = new Map();
 

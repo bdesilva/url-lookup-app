@@ -1,3 +1,5 @@
+/* BaseController class to handle url functionality */
+
 import BaseController from './base-controller';
 
 export class UrlInfoController extends BaseController {
