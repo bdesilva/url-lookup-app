@@ -1,3 +1,5 @@
+/* LoginController class to handle authorization functionality */
+
 import BaseController from './base-controller';
 
 export class LoginController extends BaseController {
@@ -10,7 +12,7 @@ export class LoginController extends BaseController {
     };
   }
 
-  authorize(params) {
+  authorize(params, response) {
     console.dir(params);
     return this.users[params.username] === params.password;
   }
