@@ -12,7 +12,7 @@ export class UrlInfoController extends BaseController {
                 query: ['']
             },
             'example.com': {
-                paths: ['/badurl'],
+                paths: ['/badurl', '/badurl/haha'],
                 query: ''
             },
             'example.com:8400': {
@@ -23,8 +23,7 @@ export class UrlInfoController extends BaseController {
     }
 
     getUrlData(params) {
-        let result = {};
-        // return `Returned params: ${params.hostname_and_port}, ${params.original_path_and_query_string}`;
+        //Check to see if there is a match on the hostname and port
         if (this.urlList[params.hostname_and_port]) {
             const malUrlData = this.urlList[params.hostname_and_port];
             if (params.original_path_and_query_string) {
@@ -38,14 +37,25 @@ export class UrlInfoController extends BaseController {
                     return this.buildOutputData(true, params);
 
                 //Next, if no match is found, start splitting the path in order to find a possible match on a substring
-                path.split('/').reduce((a, b) => {
-                    console.log(`prev: ${a}, next: ${b}`);
-                });
+                //starting with the first path substring
+                let url = '';
+                for (let point of path.split('/')) {
+                    if (point !== '') {
+                        url += `/${point}`;
+                        // console.log(url);
+                        // console.log(url === malUrlData.paths.find(val => val === url));
+                        if (malUrlData.paths.find(val => val === url))
+                            return this.buildOutputData(true, params);
+                    }
+                }
             }
+        } else {
+            return this.buildOutputData(false, params);
         }
     }
 
     buildOutputData(isMalicious, params) {
+        console.log('here');
         return `${JSON.stringify(params)}: isMalicious: ${isMalicious}`;
     }
 }
