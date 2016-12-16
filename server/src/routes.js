@@ -1,3 +1,5 @@
+/* Routes class to handle delegation of routing handlers */
+
 import ControllerFactory from './controllers/controller-factory';
 
 const controllerFactory = new ControllerFactory();

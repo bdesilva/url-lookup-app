@@ -1,3 +1,5 @@
+/* Server class */
+
 import 'babel-polyfill';
 import koa from 'koa';
 import parser from 'koa-bodyparser';
@@ -5,8 +7,8 @@ import logger from 'koa-logger';
 import cors from 'koa-cors';
 import { Router } from './router';
 
-//TODO: Make the config dynamic to suit the environment
-const config = require('../config/dev.json');
+const env = process.env.NODE_ENV || 'dev'
+  , config = require(`../config/${env}.json`);
 
 class KoaServer {
   constructor(config) {

@@ -1,3 +1,5 @@
+/* LoginController class to handle authorization functionality */
+
 import BaseController from './base-controller';
 
 export class LoginController extends BaseController {
