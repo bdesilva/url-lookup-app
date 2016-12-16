@@ -52,8 +52,6 @@ export class UrlInfoController extends BaseController {
                 for (let point of pathQuery.path.split('/')) {
                     if (point !== '') {
                         urlPath += `/${point}`;
-                        console.log(urlPath);
-                        console.log(urlPath === malUrlData.paths.find(val => val === urlPath));
                         if (malUrlData.paths.find(val => val === urlPath))
                             return this.buildOutputData(params, response = 200, {isMalicious: true});
                     }
@@ -66,10 +64,9 @@ export class UrlInfoController extends BaseController {
     }
 
     postUrlData(params, response) {
-        console.dir(params);
         const pathQuery = GenericHelper.splitPathQuery(params.original_path_and_query_string);
 
-        //Check to see if the hostname and port exist, and if so appen path and query data appropriately
+        //Check to see if the hostname and port exist, and if so append path and query data appropriately
         if (this.urlList[params.hostname_and_port]) {
             let entryAdded = false;
             const malUrlData = this.urlList[params.hostname_and_port];
