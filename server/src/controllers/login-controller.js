@@ -12,7 +12,7 @@ export class LoginController extends BaseController {
     };
   }
 
-  authorize(params) {
+  authorize(params, response) {
     console.dir(params);
     return this.users[params.username] === params.password;
   }
