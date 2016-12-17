@@ -34,6 +34,10 @@ gulp.task('run-script', shell.task([
   'node_modules/.bin/babel-node src/server.js'
 ]));
 
+gulp.task('run-prod', shell.task([
+  'NODE_ENV=prod node_modules/.bin/babel-node src/server.js'
+]));
+
 gulp.task('test', ['clean-code-coverage'], shell.task([
   'npm test'
 ]));

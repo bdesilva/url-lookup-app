@@ -1,0 +1,4 @@
+{
+  "port": 8008,
+  "corsOptions": { "origin":"http://localhost:3000", "credentials": true, "headers": ["Access-Control-Allow-Headers", "Content-Type"] }
+}

@@ -1,0 +1,10 @@
+service:
+    build: ./server
+    ports:
+        - "8008:8008"
+web:
+    build: ./client
+    links:
+        - service
+    ports:
+        - "3000:3000"
