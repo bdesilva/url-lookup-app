@@ -5,7 +5,7 @@ service_nginx:
         - service_2:service_2
         - service_3:service_3
     ports:
-        - "80:80"
+        - "8080:80"
 service_1:
     build: ./server
     ports:
@@ -18,7 +18,18 @@ service_3:
     build: ./server
     ports:
         - "8008"
-client:
+client_nginx:
+    build: ./client/nginx
+    links:
+        - client_1:client_1
+        - client_2:client_2
+    ports:
+        - "3000:80"
+client_1:
     build: ./client
     ports:
-        - "3000:3000"
+        - "3000"
+client_2:
+    build: ./client
+    ports:
+        - "3000"
