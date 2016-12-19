@@ -8,7 +8,12 @@ export default class Main extends React.Component {
   constructor() {
     super();
     this.state = {
-      url: ''
+      url: '',
+      isMalicious: false,
+      hits: 0,
+      originalParams: {},
+      status: 0,
+      resultsPanel: false
     }
   }
 
@@ -18,8 +23,22 @@ export default class Main extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if ($ !== undefined) {
+      $('.collapsible').collapsible();
+    }
+  }
+
   handleUrlChange(event) {
-    this.setState({ url: event.target.value });
+    this.setState({ url: event.target.value, resultsPanel: false });
+  }
+
+  formatUrl(event) {
+    let formattedUrl;
+    if (!event.target.value.includes('http') || !event.target.value.includes('https')) {
+      formattedUrl = event.target.value.replace(/http:\/\//g, '');
+      this.setState({ url: `http:\/\/${formattedUrl}` });
+    }
   }
 
   async searchUrl(event) {
@@ -36,6 +55,38 @@ export default class Main extends React.Component {
       });
     const urlData = await res.json();
     console.dir(urlData);
+    this.setState({
+      isMalicious: urlData.data.isMalicious,
+      hits: urlData.data.hits,
+      originalParams: urlData.originalParams,
+      status: urlData.status,
+      resultsPanel: true
+    });
+  }
+
+  renderUrlResults() {
+    let isMaliciousUrlClass = 'not-malicious';
+    let isMaliciousUrlString = 'is not malicious';
+    let isMaliciousUrlGrid = 'col s12 m12 l12'
+
+    if (this.state.isMalicious) {
+      isMaliciousUrlClass = 'malicious';
+      isMaliciousUrlString = 'is malicious';
+      isMaliciousUrlGrid = 'col s12 m9 l9';
+    }
+
+    return (
+      <div className={isMaliciousUrlClass}>
+        <div className={isMaliciousUrlGrid}>
+          <p>This site: {this.state.url} {isMaliciousUrlString}.</p>
+        </div>
+        {(!this.state.isMalicious) 
+            ? <div className='col s12 m3 l3'>
+                <a className="btn-floating btn-large waves-effect waves-light red">Go!</a>
+              </div>
+        : <div></div>}
+      </div>
+    );
   }
 
   addUrl(event) {
@@ -44,16 +95,16 @@ export default class Main extends React.Component {
   }
 
   render() {
+    let collapsiblePanelClass = (this.state.resultsPanel)
+      ? 'collapsible-header active'
+      : 'collapsible-header';
+
     return (
-      <div className='content-body'>
         <div>
           <h1>Search for a url...</h1>
           <div className='row'>
-            <div className='col s12 m4 l3'>
-              {/* <!-- Left sidebar panel --> */}
-            </div>
-
-            <div className='col s12 m8 l9'>
+            <div className="valign-wrapper">
+            <div className='col s12 m9 l12 valign'>
               {/* <!-- Main content  --> */}
               <div className='row'>
                 <div className='col s12 m6 l6'>
@@ -63,8 +114,9 @@ export default class Main extends React.Component {
                       <form>
                         <div className='row'>
                           <div className='input-field col s12 m12 l12'>
-                            <input id='url' type='text' className='validate' value={this.state.url} onChange={::this.handleUrlChange} />
-                          <label htmlFor='url' data-error={this.state.validError}>URL Lookup</label>
+                            <input id='url' type='text' className='validate' value={this.state.url} onChange={::this.handleUrlChange}
+                              onBlur={::this.formatUrl} />
+                          <label htmlFor='url' data-error={this.state.validError}>Enter a URL to search</label>
                           </div>
                         </div>
                       </form>
@@ -78,15 +130,53 @@ export default class Main extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className='row'>
+              </div>
+              <div className='row valign'>
                 <ul className="collapsible popout" data-collapsible="accordion">
                   <li>
-                    <div className="collapsible-header"><i className="material-icons">filter_drama</i>First</div>
-                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    <div className={collapsiblePanelClass}><i className="material-icons">filter_drama</i>First</div>
+                    <div className="collapsible-body c-body">
+                      {::this.renderUrlResults()}
+                    </div>
                   </li>
                   <li>
                     <div className="collapsible-header"><i className="material-icons">place</i>Second</div>
-                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    <div className="collapsible-body c-body">
+                      <ul className="collection">
+                        <li className="collection-item avatar">
+                          <img src="images/yuna.jpg" alt="" className="circle" />
+                          <span className="title">Title</span>
+                          <p>First Line <br />
+                            Second Line
+                          </p>
+                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+                        </li>
+                        <li className="collection-item avatar">
+                          <i className="material-icons circle">folder</i>
+                          <span className="title">Title</span>
+                          <p>First Line <br />
+                            Second Line
+                          </p>
+                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+                        </li>
+                        <li className="collection-item avatar">
+                          <i className="material-icons circle green">insert_chart</i>
+                          <span className="title">Title</span>
+                          <p>First Line <br />
+                            Second Line
+                          </p>
+                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+                        </li>
+                        <li className="collection-item avatar">
+                          <i className="material-icons circle red">play_arrow</i>
+                          <span className="title">Title</span>
+                          <p>First Line <br />
+                            Second Line
+                          </p>
+                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
+                        </li>
+                      </ul>
+                    </div>
                   </li>
                   <li>
                     <div className="collapsible-header"><i className="material-icons">whatshot</i>Third</div>
@@ -98,7 +188,6 @@ export default class Main extends React.Component {
           </div>
         </div>
       </div>
-      </div >
       </div >
     );
   }

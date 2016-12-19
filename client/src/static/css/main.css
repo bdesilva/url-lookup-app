@@ -120,3 +120,12 @@ p {
 .c-body {
   background-color: lightgray;
 }
+
+.not-malicious p {
+  color: green;
+}
+
+.malicious p {
+  color: red;
+}
+
