@@ -116,3 +116,7 @@ p {
   align-items: center;
   justify-content: center;
 }
+
+.c-body {
+  background-color: lightgray;
+}

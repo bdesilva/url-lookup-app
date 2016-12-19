@@ -46,10 +46,12 @@ export default class Login extends React.Component {
         <h1>Welcome to the URL Lookup Admin Tool!</h1>
         <div className='row'>
         <div className='row' />
-          <div className='col s12 m4 l3'>
+          <div className='col s12 m4 l2'>
             {/* <!-- Left sidebar panel --> */}
           </div>
-
+           <div className='col s12 m4 l1'>
+            {/* <!-- Left sidebar panel --> */}
+          </div>
           <div className='col s12 m8 l9'>
             {/* <!-- Main content  --> */}
             <div className='row'>

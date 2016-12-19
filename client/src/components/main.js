@@ -1,5 +1,8 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
+import Url from 'url';
+import UrlEncode from 'urlencode';
+import Fetch from 'node-fetch';
 
 export default class Main extends React.Component {
   constructor() {
@@ -19,9 +22,20 @@ export default class Main extends React.Component {
     this.setState({ url: event.target.value });
   }
 
-  searchUrl(event) {
+  async searchUrl(event) {
     event.preventDefault();
     console.log(`Searching for ${this.state.url}`);
+    const url = Url.parse(this.state.url, true);
+    const hostNameAndPort = url.host;
+    const pathAndQueryString = UrlEncode(url.path);
+    console.log(hostNameAndPort);
+    console.log(pathAndQueryString);
+    const res = await Fetch(`http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
+      {
+        method: 'GET'
+      });
+    const urlData = await res.json();
+    console.dir(urlData);
   }
 
   addUrl(event) {
@@ -68,15 +82,15 @@ export default class Main extends React.Component {
                 <ul className="collapsible popout" data-collapsible="accordion">
                   <li>
                     <div className="collapsible-header"><i className="material-icons">filter_drama</i>First</div>
-                    <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
                   </li>
                   <li>
                     <div className="collapsible-header"><i className="material-icons">place</i>Second</div>
-                    <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
                   </li>
                   <li>
                     <div className="collapsible-header"><i className="material-icons">whatshot</i>Third</div>
-                    <div className="collapsible-body"><p>Lorem ipsum dolor sit amet.</p></div>
+                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
                   </li>
                 </ul>
               </div>
