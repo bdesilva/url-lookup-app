@@ -45,10 +45,12 @@ export class UrlInfoController extends BaseController {
             if (params.original_path_and_query_string) {
                 const pathQuery = GenericHelper.splitPathQuery(params.original_path_and_query_string);
 
-                //Scan full path to initially determine a match.
+                //Scan full path to initially determine a match and increment an exact match counter.
                 if (malUrlData.fullPath[pathQuery.fullPath]) {
                     malUrlData.fullPath[pathQuery.fullPath].hits++;
-                    return this.buildOutputData(params, response = 200, { isMalicious: true });
+                    this.setUrl(response, { updated: true }, params, malUrlData);
+                    return this.buildOutputData(params, response = 200, 
+                        { isMalicious: true, hits: malUrlData.fullPath[pathQuery.fullPath].hits});
                 }
 
                 //Analyze user path in depth by running a first pass to find an exact path                
