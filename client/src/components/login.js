@@ -13,18 +13,12 @@ export default class Login extends React.Component {
   }
 
   async login(event) {
-    //TODO: Disabling POST request till CORS issue is fixed.
-    /*const res = await Fetch('http://localhost:8008/login', 
-      { method: 'POST', body: {"username": this.formData.username, "password": this.formData.password},
-      headers: {"Content-Type": "application/json", "Access-Control-Allow-Credentials": "true"}});*/
     event.preventDefault();
     if (this.state.username === '' || this.state.password === '') {
       this.setState({ validError: 'Field cannot be empty' });
       Materialize.toast('Field cannot be empty', 1000)
     } else {
-      // const res = await Fetch(`http://localhost:8008/login/${this.state.username}/${this.state.password}`
-      // , { method: 'GET' });
-      const res = await Fetch('http://localhost:8008/login',
+      const res = await Fetch('http://localhost:8080/login',
         {
           method: 'POST',
           mode: 'no-cors',
