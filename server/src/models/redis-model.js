@@ -4,12 +4,14 @@ Bluebird.promisifyAll(Redis.RedisClient.prototype);
 
 export class RedisModel {
     constructor(config) {
-        // this.client = Redis.createClient({host: 'redis-master', port: '6379', password: 'my_password'});
-        this.client = Redis.createClient('6379', 'redis-primary');
+        const initialList = require('../../config/default-list.json');
+        this.client = Redis.createClient(config.redisPort, config.redisHost);
 
         this.client.on('error', (err) => {
             console.log(`Redis error: ${err}`);
         });
+
+        this.insertDefaultUrls(initialList);
     }
 
     storeUrl(key, data) {
@@ -18,5 +20,12 @@ export class RedisModel {
 
     getUrl(key) {
         return this.client.getAsync(key);
+    }
+
+    //Insert default urls to redis cluster
+    insertDefaultUrls(initialList) {
+        Object.keys(initialList).forEach(key => {
+            this.storeUrl(key, initialList[key]);
+        });
     }
 }
