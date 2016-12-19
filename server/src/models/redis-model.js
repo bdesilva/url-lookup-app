@@ -5,7 +5,7 @@ Bluebird.promisifyAll(Redis.RedisClient.prototype);
 export class RedisModel {
     constructor(config) {
         // this.client = Redis.createClient({host: 'redis-master', port: '6379', password: 'my_password'});
-        this.client = Redis.createClient('6379', 'redis');
+        this.client = Redis.createClient('6379', 'redis-primary');
 
         this.client.on('error', (err) => {
             console.log(`Redis error: ${err}`);

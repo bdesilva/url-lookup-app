@@ -13,25 +13,25 @@ services:
         ports:
             - "8008"
         depends_on:
-            # - redis-primary
-            # - redis-secondary
-            - redis
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
     service_2:
         build: ./server
         ports:
             - "8008"
         depends_on:
-            # - redis-primary
-            # - redis-secondary
-            - redis
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
     service_3:
         build: ./server
         ports:
             - "8008"
         depends_on:
-            # - redis-primary
-            # - redis-secondary
-            - redis
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
     client_nginx:
         build: ./client/nginx
         depends_on:
@@ -47,26 +47,29 @@ services:
         build: ./client
         ports:
             - "3000"
-    redis:
-        image: redis
+    redis-primary:
+        image: "bitnami/redis:latest"
         ports:
             - "6379"
-    # redis-primary:
-    #     image: "bitnami/redis:latest"
-    #     ports:
-    #         - "6379"
-    #     environment:
-    #         - REDIS_REPLICATION_MODE=master
-    #         - REDIS_PASSWORD=my_password
-    # redis-secondary:
-    #     image: "bitnami/redis:latest"
-    #     ports:
-    #         - "6379"
-    #     depends_on:
-    #         - redis-primary
-    #     environment:
-    #         - REDIS_REPLICATION_MODE=slave
-    #         - REDIS_MASTER_HOST=redis-primary
-    #         - REDIS_MASTER_PORT=6379
-    #         - REDIS_MASTER_PASSWORD=my_password
-    #         - REDIS_PASSWORD=my_password
+        environment:
+            - REDIS_REPLICATION_MODE=master
+    redis-secondary-1:
+        image: "bitnami/redis:latest"
+        ports:
+            - "6379"
+        depends_on:
+            - redis-primary
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT=6379
+    redis-secondary-2:
+        image: "bitnami/redis:latest"
+        ports:
+            - "6379"
+        depends_on:
+            - redis-primary
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT=6379
