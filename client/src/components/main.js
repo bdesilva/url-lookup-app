@@ -13,7 +13,8 @@ export default class Main extends React.Component {
       hits: 0,
       originalParams: {},
       status: 0,
-      resultsPanel: false
+      resultsPanel: false,
+      defaultState: true
     }
   }
 
@@ -30,10 +31,10 @@ export default class Main extends React.Component {
   }
 
   handleUrlChange(event) {
-    this.setState({ url: event.target.value, resultsPanel: false });
+    this.setState({ url: event.target.value, resultsPanel: false, defaultState: true });
   }
-
-  formatUrl(event) {
+  
+  formatUrl(event) {    
     let formattedUrl;
     if (!event.target.value.includes('http') || !event.target.value.includes('https')) {
       formattedUrl = event.target.value.replace(/http:\/\//g, '');
@@ -56,8 +57,10 @@ export default class Main extends React.Component {
     const urlData = await res.json();
     console.dir(urlData);
     this.setState({
+      defaultState: false,
       isMalicious: urlData.data.isMalicious,
       hits: urlData.data.hits,
+      restCall: `http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       originalParams: urlData.originalParams,
       status: urlData.status,
       resultsPanel: true
@@ -65,26 +68,32 @@ export default class Main extends React.Component {
   }
 
   renderUrlResults() {
-    let isMaliciousUrlClass = 'not-malicious';
-    let isMaliciousUrlString = 'is not malicious';
+    let isMaliciousUrlClass = 'malicious-default';
+    let isMaliciousUrlString = 'Please search for a URL to gain access to url data.';
     let isMaliciousUrlGrid = 'col s12 m12 l12'
 
     if (this.state.isMalicious) {
       isMaliciousUrlClass = 'malicious';
-      isMaliciousUrlString = 'is malicious';
-      isMaliciousUrlGrid = 'col s12 m9 l9';
+      isMaliciousUrlString = `This site: ${this.state.url} is malicious.`;
+      isMaliciousUrlGrid = 'col s12 m9 l12';
+    }
+
+    if (!this.state.isMalicious && !this.state.defaultState) {
+      isMaliciousUrlClass = 'not-malicious';
+      isMaliciousUrlString = `This site: ${this.state.url} is not malicious.`;
+      isMaliciousUrlGrid = 'col s12 m9 l10';
     }
 
     return (
       <div className={isMaliciousUrlClass}>
         <div className={isMaliciousUrlGrid}>
-          <p>This site: {this.state.url} {isMaliciousUrlString}.</p>
+          <p>{isMaliciousUrlString}</p>
         </div>
-        {(!this.state.isMalicious) 
-            ? <div className='col s12 m3 l3'>
-                <a className="btn-floating btn-large waves-effect waves-light red">Go!</a>
-              </div>
-        : <div></div>}
+        {(!this.state.isMalicious && !this.state.defaultState)
+          ? <div className='col s12 m3 l2'>
+            <a href='#' onClick={() => window.open(this.state.url, '_blank')} className="btn-floating btn-large waves-effect waves-light red">Go!</a>
+          </div>
+          : <div></div>}
       </div>
     );
   }
@@ -100,10 +109,10 @@ export default class Main extends React.Component {
       : 'collapsible-header';
 
     return (
-        <div>
-          <h1>Search for a url...</h1>
-          <div className='row'>
-            <div className="valign-wrapper">
+      <div>
+        <h1>Search for a url...</h1>
+        <div className='row'>
+          <div className="valign-wrapper">
             <div className='col s12 m9 l12 valign'>
               {/* <!-- Main content  --> */}
               <div className='row'>
@@ -114,9 +123,9 @@ export default class Main extends React.Component {
                       <form>
                         <div className='row'>
                           <div className='input-field col s12 m12 l12'>
-                            <input id='url' type='text' className='validate' value={this.state.url} onChange={::this.handleUrlChange}
+                            <input id='url' type='text' value={this.state.url} onChange={::this.handleUrlChange}
                               onBlur={::this.formatUrl} />
-                          <label htmlFor='url' data-error={this.state.validError}>Enter a URL to search</label>
+                          <label htmlFor='url'>Enter a URL to search</label>
                           </div>
                         </div>
                       </form>
@@ -130,64 +139,58 @@ export default class Main extends React.Component {
                   </div>
                 </div>
               </div>
-              </div>
-              <div className='row valign'>
-                <ul className="collapsible popout" data-collapsible="accordion">
-                  <li>
-                    <div className={collapsiblePanelClass}><i className="material-icons">filter_drama</i>First</div>
-                    <div className="collapsible-body c-body">
-                      {::this.renderUrlResults()}
+            </div>
+            <div className='row valign'>
+              <ul className="collapsible popout" data-collapsible="accordion">
+                <li>
+                  <div className={collapsiblePanelClass}><i className="material-icons">filter_drama</i>URL Search Results</div>
+                  <div className="collapsible-body c-body">
+                    {::this.renderUrlResults()}
                     </div>
-                  </li>
-                  <li>
-                    <div className="collapsible-header"><i className="material-icons">place</i>Second</div>
-                    <div className="collapsible-body c-body">
-                      <ul className="collection">
+                </li>
+                <li>
+                  <div className="collapsible-header"><i className="material-icons">place</i>URL Search Data</div>
+                  <div className="collapsible-body c-body">
+                    <ul className="collection">
+                      <li className="collection-item avatar">
+                        <i className="material-icons circle red">dns</i>
+                        <span className="title">Url searched</span>
+                        <p>{this.state.url} <br />
+                          isMalicious: {this.state.isMalicious.toString()}
+                        </p>
+                      </li>
+                      {(this.state.hits > 0) ?
                         <li className="collection-item avatar">
-                          <img src="images/yuna.jpg" alt="" className="circle" />
-                          <span className="title">Title</span>
-                          <p>First Line <br />
-                            Second Line
+                          <i className="material-icons circle blue">add_alert</i>
+                          <span className="title">Hits for exact match to url searched</span>
+                          <p>{this.state.hits} hits <br />
                           </p>
-                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
                         </li>
-                        <li className="collection-item avatar">
-                          <i className="material-icons circle">folder</i>
-                          <span className="title">Title</span>
-                          <p>First Line <br />
-                            Second Line
-                          </p>
-                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
-                        </li>
-                        <li className="collection-item avatar">
-                          <i className="material-icons circle green">insert_chart</i>
-                          <span className="title">Title</span>
-                          <p>First Line <br />
-                            Second Line
-                          </p>
-                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
-                        </li>
-                        <li className="collection-item avatar">
-                          <i className="material-icons circle red">play_arrow</i>
-                          <span className="title">Title</span>
-                          <p>First Line <br />
-                            Second Line
-                          </p>
-                          <a href="#!" className="secondary-content"><i className="material-icons">grade</i></a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="collapsible-header"><i className="material-icons">whatshot</i>Third</div>
-                    <div className="collapsible-body c-body"><p>Lorem ipsum dolor sit amet.</p></div>
-                  </li>
-                </ul>
-              </div>
+                        : <span></span>
+                      }
+                      <li className="collection-item avatar">
+                        <i className="material-icons circle green">insert_chart</i>
+                        <span className="title">REST call details</span>
+                        <p><span className="truncate">REST call: {this.state.restCall}</span><br />
+                          Status code: {this.state.status}
+                        </p>
+                      </li>
+                      <li className="collection-item avatar">
+                        <i className="material-icons circle brown">settings_remote</i>
+                        <span className="title">Parameter details</span>
+                        <p>Hostname and port: {this.state.originalParams.hostname_and_port}<br />
+                          Path and query string: {this.state.originalParams.original_path_and_query_string}<br />
+                        </p>
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
+      </div >
       </div >
     );
   }

@@ -123,9 +123,14 @@ p {
 
 .not-malicious p {
   color: green;
+  padding-top: 2% !important
 }
 
 .malicious p {
-  color: red;
+  color: red;  
+}
+
+.malicious-default p {
+  color: blue;
 }
 
