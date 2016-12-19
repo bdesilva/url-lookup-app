@@ -1,4 +1,4 @@
-version: '2'
+version: "2"
 services:
     service_nginx:
         build: ./server/nginx
@@ -12,14 +12,26 @@ services:
         build: ./server
         ports:
             - "8008"
+        depends_on:
+            # - redis-primary
+            # - redis-secondary
+            - redis
     service_2:
         build: ./server
         ports:
             - "8008"
+        depends_on:
+            # - redis-primary
+            # - redis-secondary
+            - redis
     service_3:
         build: ./server
         ports:
             - "8008"
+        depends_on:
+            # - redis-primary
+            # - redis-secondary
+            - redis
     client_nginx:
         build: ./client/nginx
         depends_on:
@@ -35,3 +47,26 @@ services:
         build: ./client
         ports:
             - "3000"
+    redis:
+        image: redis
+        ports:
+            - "6379"
+    # redis-primary:
+    #     image: "bitnami/redis:latest"
+    #     ports:
+    #         - "6379"
+    #     environment:
+    #         - REDIS_REPLICATION_MODE=master
+    #         - REDIS_PASSWORD=my_password
+    # redis-secondary:
+    #     image: "bitnami/redis:latest"
+    #     ports:
+    #         - "6379"
+    #     depends_on:
+    #         - redis-primary
+    #     environment:
+    #         - REDIS_REPLICATION_MODE=slave
+    #         - REDIS_MASTER_HOST=redis-primary
+    #         - REDIS_MASTER_PORT=6379
+    #         - REDIS_MASTER_PASSWORD=my_password
+    #         - REDIS_PASSWORD=my_password

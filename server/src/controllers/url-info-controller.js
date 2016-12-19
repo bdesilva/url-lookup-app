@@ -2,11 +2,13 @@
 
 import BaseController from './base-controller';
 import GenericHelper from '../helpers/generic-helper';
+import { RedisModel } from '../models/redis-model';
 
 export class UrlInfoController extends BaseController {
     constructor(enforcer) {
         super();
         if (enforcer != this.singletonEnforcer) throw "Cannot construct UrlInfoController";
+        this.redis = new RedisModel({});
         this.urlList = {
             'www.google.com': {
                 paths: ['/'],
@@ -27,7 +29,32 @@ export class UrlInfoController extends BaseController {
         };
     }
 
-    getUrlData(params, response) {
+    async fetchUrl(hostname_and_port) {
+        let urlMatch;
+        
+        try {
+            urlMatch = await this.redis.getUrl(hostname_and_port);
+        } catch (err) {
+            console.log(`Get error: ${err}`);
+        }
+        return urlMatch;
+    }
+
+    async getUrlData(params, response) {        
+        const hostnameget = 'example.com:8600';
+        const matchedUrl = await this.fetchUrl(hostnameget);
+
+        if (matchedUrl) {
+            console.log(matchedUrl);
+            let tester = JSON.parse(matchedUrl);
+            console.dir(tester);
+            console.log(`${hostnameget}: paths: ${tester.paths}`);
+            console.log(`${hostnameget}: query: ${tester.query}`);
+            console.log(`${hostnameget}: fullPath: ${tester.fullPath}`);
+        } else {
+            console.log(`No match on ${hostnameget}`);
+        }
+        
         //Check to see if there is a match on the hostname and port
         if (this.urlList[params.hostname_and_port]) {
             const malUrlData = this.urlList[params.hostname_and_port];
@@ -64,6 +91,12 @@ export class UrlInfoController extends BaseController {
     }
 
     postUrlData(params, response) {
+        const hostnametest = {
+                paths: ['/hi', '/hey'],
+                query: ['?some-flag=1'],
+                fullPath: {'/hi?some-flag=1': {hits: 0}, '/hey': {hits: 0}}
+            };
+        this.redis.storeUrl('example.com:8600', hostnametest);
         const pathQuery = GenericHelper.splitPathQuery(params.original_path_and_query_string);
 
         //Check to see if the hostname and port exist, and if so append path and query data appropriately
@@ -96,7 +129,7 @@ export class UrlInfoController extends BaseController {
                 fullPath: {}
             };            
             objToAdd.fullPath[params.original_path_and_query_string] = {hits: 0};
-            this.urlList[params.hostname_and_port] = objToAdd;            
+            this.urlList[params.hostname_and_port] = objToAdd;
         }
         return this.buildOutputData(params, response.status = 201, {urlList: this.urlList});
     }
