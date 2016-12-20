@@ -22,7 +22,7 @@ describe('GenericHelpers', () => {
         const data = GenericHelpers.splitPathQuery('example.com:8400/badurl/hi');
         
         expect(data.path).to.eql('/example.com:8400/badurl/hi');
-        expect(data.query).to.eql('');
+        expect(data.query).to.eql('?undefined');
         expect(data.fullPath).to.eql('example.com:8400/badurl/hi');
     });
 
