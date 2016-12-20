@@ -18,7 +18,7 @@ export default class Login extends React.Component {
       this.setState({ validError: 'Field cannot be empty' });
       Materialize.toast('Field cannot be empty', 1000)
     } else {
-      const res = await Fetch('http://localhost:8008/login',
+      const res = await Fetch('http://localhost:8080/login',
         {
           method: 'POST',
           mode: 'no-cors',

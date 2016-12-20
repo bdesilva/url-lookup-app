@@ -53,7 +53,7 @@ export default class Main extends React.Component {
     const hostNameAndPort = url.host;
     const pathAndQueryString = UrlEncode(url.path);
     console.log(pathAndQueryString);
-    const res = await Fetch(`http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
+    const res = await Fetch(`http://localhost:8080/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       {
         method: 'GET'
       });
@@ -62,7 +62,7 @@ export default class Main extends React.Component {
       defaultState: false,
       isMalicious: urlData.data.isMalicious,
       hits: urlData.data.hits,
-      restCall: `http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
+      restCall: `http://localhost:8080/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       originalParams: urlData.originalParams,
       status: urlData.status,
       resultsPanel: true
@@ -77,7 +77,7 @@ export default class Main extends React.Component {
     console.log(hostNameAndPort);
     console.log(pathAndQueryString);
 
-    const res = await Fetch('http://localhost:8008/1/url-info',
+    const res = await Fetch('http://localhost:8080/1/url-info',
       {
         method: 'POST',
         mode: 'no-cors',
@@ -90,7 +90,7 @@ export default class Main extends React.Component {
 
   async getUrlList(event) {
     event.preventDefault();
-    const res = await Fetch('http://localhost:8008/1/url-info/getAllData',
+    const res = await Fetch('http://localhost:8080/1/url-info/getAllData',
       {
         method: 'GET'
       });
