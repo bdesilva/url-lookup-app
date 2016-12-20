@@ -1,4 +1,21 @@
 {
   "port": 8008,
-  "corsOptions": { "origin":"http://localhost:4000", "credentials": true, "headers": ["Access-Control-Allow-Headers"] }
+  "corsOptions": {
+    "origin": "http://localhost:4000",
+    "credentials": true,
+    "headers": [
+      "Access-Control-Allow-Headers",
+      "Content-Type"
+    ]
+  },
+  "urlControllerOptions": {
+    "persistence": {
+      "dataStore": "redis",
+      "redisHost": "127.0.0.1",
+      "redisPort": "6379"
+    }
+  },
+  "loginControllerOptions": {
+    "admin": "admin"
+  }
 }

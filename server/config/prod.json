@@ -1,0 +1,21 @@
+{
+  "port": 8008,
+  "corsOptions": {
+    "origin": "http://localhost:3000",
+    "credentials": true,
+    "headers": [
+      "Access-Control-Allow-Headers",
+      "Content-Type"
+    ]
+  },
+  "urlControllerOptions": {
+    "persistence": {
+      "dataStore": "redis",
+      "redisHost": "redis-primary",
+      "redisPort": "6379"
+    }
+  },
+  "loginControllerOptions": {
+    "opendns": "superadmin"
+  }
+}

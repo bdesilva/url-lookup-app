@@ -1,0 +1,136 @@
+@media all and (min-device-width:320px) {
+  body { font-size: 19px; }
+  h1 { font-size: 24px; }
+}
+@media all and (min-device-width:768px) {
+  body { font-size: 19px; }
+  h1 { font-size: 26px; }
+}
+@media all and (min-device-width:1024px) {
+  body { font-size:21px; }
+  h1 { font-size: 28px; }
+}
+p, div, h1 {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.content-body {
+  padding: 10px;
+}
+body {
+  /*width: 36em;*/
+  max-width: 100%;
+  padding-top: 0.8em;
+  margin: auto;
+  line-height: 1.6em;
+  font-family: 'Helvetica Neue', helvetica, sans;
+  text-rendering: optimizeLegibility;
+  color: #4A525A;
+  background: #FEFCFF;
+}
+h1 {
+  font-weight: 300;
+  font-family: inherit;
+  line-height: inherit;
+  padding: 0;
+  margin: 0;
+  word-wrap: break-word;
+  padding-bottom: 0.2em;
+  margin-top: 0.4em;
+}
+a {
+  text-decoration: none;
+  color: #157DEC;
+  border-bottom: thin solid;
+  border-bottom-color: #157DEC;
+}
+p {
+  padding: 0!important;
+  margin: 0!important;
+}
+
+.example-enter {
+  opacity: 0.01;
+}
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+.example-leave {
+  opacity: 1;
+}
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.main-enter {
+  transform: translateX(100%);
+}
+.main-enter.main-enter-active {
+  transform: translateX(0%);
+  transition: transform 1000ms ease-in-out;
+}
+.main-leave {
+  transform: translateX(0%);
+}
+.main-leave.main-leave-active {
+  transform: translateX(-100%);
+  transition: transform 1000ms ease-in-out;
+}
+
+.login-enter {
+  transform: translateX(-100%);
+}
+.login-enter.login-enter-active {
+  transform: translateX(0%);
+  transition: transform 1000ms ease-in-out;
+}
+.login-leave {
+  transform: translateX(0%);
+}
+.login-leave.login-leave-active {
+  transform: translateX(100%);
+  transition: transform 1000ms ease-in-out;
+}
+
+.not-found-container {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/404_number.jpg/640px-404_number.jpg');
+  height: 100%;
+  position: fixed;
+  top: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  z-index: 0;
+  left: 0;
+  text-align: center;
+}
+
+.not-found-container h1 {
+  color: white;
+}
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-body {
+  background-color: lightgray;
+}
+
+.not-malicious p {
+  color: green;
+  padding-top: 2% !important
+}
+
+.malicious p {
+  color: red;  
+}
+
+.malicious-default p {
+  color: blue;
+}
+

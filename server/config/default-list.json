@@ -1,0 +1,56 @@
+{
+    "www.google.com": {
+        "paths": [
+            "/"
+        ],
+        "query": [
+            ""
+        ],
+        "fullPath": {
+            "/": {
+                "hits": 0
+            }
+        }
+    },
+    "example.com": {
+        "paths": [
+            "/",
+            "/badurl",
+            "/badurl/hithere",
+            "/badurl/hi"
+        ],
+        "query": [
+            "?activate=true",
+            "?activate=false&signal=1"
+        ],
+        "fullPath": {
+            "/badurl?activate=true": {
+                "hits": 0
+            },
+            "/badurl/hithere": {
+                "hits": 0
+            },
+            "/badurl/hi?activate=false&signal=1": {
+                "hits": 0
+            }
+        }
+    },
+    "example.com:8400": {
+        "paths": [
+            "/",
+            "/hi",
+            "/hey"
+        ],
+        "query": [
+            "?some-flag=1"
+        ],
+        "fullPath": {
+            "/hi?some-flag=1": {
+                "hits": 0
+            },
+            "/hey": {
+                "hits": 0
+            }
+        }
+    }
+}

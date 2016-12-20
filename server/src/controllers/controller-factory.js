@@ -5,6 +5,12 @@ import { LoginController } from './login-controller';
 import { UrlInfoController } from './url-info-controller';
 
 export default class ControllerFactory extends BaseController {
+    constructor() {
+        super();
+        const env = process.env.NODE_ENV || 'dev';
+        this.config = require(`../../config/${env}.json`);
+    }
+
     createController(controller) {
         switch (controller) {
             case 'loginController': {                
@@ -18,7 +24,7 @@ export default class ControllerFactory extends BaseController {
 
     getInstance(name, controller) {
         if (!this.singletonMap.get(controller.name)) {
-            this.singletonMap.set(controller.name, new controller(this.singletonEnforcer));
+            this.singletonMap.set(controller.name, new controller(this.singletonEnforcer, this.config));
         }
         return this.singletonMap.get(controller.name);
     }

@@ -4,7 +4,7 @@ import 'babel-polyfill';
 import koa from 'koa';
 import parser from 'koa-bodyparser';
 import logger from 'koa-logger';
-import cors from 'koa-cors';
+import cors from 'kcors';
 import { Router } from './router';
 
 const env = process.env.NODE_ENV || 'dev'
@@ -22,10 +22,9 @@ class KoaServer {
     this.router = new Router();
     this.setupMiddleware();
   }
-
-  setupMiddleware() {
-    //Disabling CORS till I figure out the Chrome issue with my REACT client.
-    this.app.use(cors(this.config.corsOptions));
+  
+  setupMiddleware() {    
+    this.app.use(cors(config.corsOptions));
     this.app.use(parser());
     this.app.use(logger());
     this.app.use(this.router.koaRouter.routes());

@@ -12,5 +12,5 @@ RUN npm install -g gulp
 WORKDIR /src
 ADD . /src
 
-EXPOSE  8008
-CMD ["gulp"]
+EXPOSE 8008
+CMD ["gulp", "run-prod"]

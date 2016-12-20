@@ -1,0 +1,75 @@
+version: "2"
+services:
+    service_nginx:
+        build: ./server/nginx
+        depends_on:
+            - service_1
+            - service_2
+            - service_3
+        ports:
+            - "8080:80"
+    service_1:
+        build: ./server
+        ports:
+            - "8008"
+        depends_on:
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
+    service_2:
+        build: ./server
+        ports:
+            - "8008"
+        depends_on:
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
+    service_3:
+        build: ./server
+        ports:
+            - "8008"
+        depends_on:
+            - redis-primary
+            - redis-secondary-1
+            - redis-secondary-2
+    client_nginx:
+        build: ./client/nginx
+        depends_on:
+            - client_1
+            - client_2
+        ports:
+            - "3000:80"
+    client_1:
+        build: ./client
+        ports:
+            - "3000"
+    client_2:
+        build: ./client
+        ports:
+            - "3000"
+    redis-primary:
+        image: "bitnami/redis:latest"
+        ports:
+            - "6379"
+        environment:
+            - REDIS_REPLICATION_MODE=master
+    redis-secondary-1:
+        image: "bitnami/redis:latest"
+        ports:
+            - "6379"
+        depends_on:
+            - redis-primary
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT=6379
+    redis-secondary-2:
+        image: "bitnami/redis:latest"
+        ports:
+            - "6379"
+        depends_on:
+            - redis-primary
+        environment:
+            - REDIS_REPLICATION_MODE=slave
+            - REDIS_MASTER_HOST=redis-primary
+            - REDIS_MASTER_PORT=6379
