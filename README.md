@@ -11,8 +11,10 @@ A multi-tiered URL lookup application.
 4. Run the `./run-app.sh` file and it will do some initial clean up and run `docker-compose up` which will get the application up and running.
 5. The web app can be reached at `http://localhost:3000` and the service layer can be reached at `http://localhost:8008/1/url-info/`.
 
+Downloaded Docker images:
 ![docker-images-loaded](documentation/docker-images-loaded.png "Docker images loaded:")
 
+docker-compose up and running:
 ![docker-compose-running](documentation/docker-compose-running.png "Docker compose running:")
 
 ##Tests:
