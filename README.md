@@ -7,7 +7,7 @@ A multi-tiered URL lookup application.
 ##Instructions (production version):
 1. Download and install Docker for your OS.
 2. Clone this repository to a location on your hard drive.
-3. Set permissions for the `run-app.sh` file in the root directory as we are going to run this file.
+3. Set permissions for the `run-app.sh` file in the root directory.
 4. Run the `./run-app.sh` file and it will do some initial clean up and run `docker-compose up` which will get the application up and running.
 5. The web app can be reached at `http://localhost:3000` and the service layer can be reached at `http://localhost:8008/1/url-info/`.
 
