@@ -18,7 +18,7 @@ export default class Login extends React.Component {
       this.setState({ validError: 'Field cannot be empty' });
       Materialize.toast('Field cannot be empty', 1000)
     } else {
-      const res = await Fetch('http://localhost:8080/login',
+      const res = await Fetch('http://localhost:8008/login',
         {
           method: 'POST',
           mode: 'no-cors',
@@ -42,7 +42,6 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to the URL Lookup Admin Tool!</h1>
         <div className='row'>
         <div className='row' />
           <div className='col s12 m4 l2'>

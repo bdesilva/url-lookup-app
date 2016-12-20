@@ -36,6 +36,7 @@ export default class Main extends React.Component {
 
   handleUrlChange(event) {
     this.setState({ url: event.target.value, resultsPanel: false, defaultState: true });
+    (this.state.url === '') ? this.setState({ buttonDisabled: true }) : this.setState({ buttonDisabled: false });
   }
 
   formatUrl(event) {
@@ -43,8 +44,7 @@ export default class Main extends React.Component {
     if (!event.target.value.includes('http') || !event.target.value.includes('https')) {
       formattedUrl = event.target.value.replace(/http:\/\//g, '');
       this.setState({ url: `http:\/\/${formattedUrl}` });
-    }
-    (this.state.url === '') ? this.setState({ buttonDisabled: true }) : this.setState({ buttonDisabled: false });
+    }    
   }
 
   async searchUrl(event) {
@@ -52,7 +52,8 @@ export default class Main extends React.Component {
     const url = Url.parse(this.state.url, true);
     const hostNameAndPort = url.host;
     const pathAndQueryString = UrlEncode(url.path);
-    const res = await Fetch(`http://localhost:8080/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
+    console.log(pathAndQueryString);
+    const res = await Fetch(`http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       {
         method: 'GET'
       });
@@ -61,7 +62,7 @@ export default class Main extends React.Component {
       defaultState: false,
       isMalicious: urlData.data.isMalicious,
       hits: urlData.data.hits,
-      restCall: `http://localhost:8080/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
+      restCall: `http://localhost:8008/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       originalParams: urlData.originalParams,
       status: urlData.status,
       resultsPanel: true
@@ -73,8 +74,10 @@ export default class Main extends React.Component {
     const url = Url.parse(this.state.url, true);
     const hostNameAndPort = url.host;
     const pathAndQueryString = url.path;
+    console.log(hostNameAndPort);
+    console.log(pathAndQueryString);
 
-    const res = await Fetch('http://localhost:8080/1/url-info',
+    const res = await Fetch('http://localhost:8008/1/url-info',
       {
         method: 'POST',
         mode: 'no-cors',
@@ -87,7 +90,7 @@ export default class Main extends React.Component {
 
   async getUrlList(event) {
     event.preventDefault();
-    const res = await Fetch('http://localhost:8080/1/url-info/getAllData',
+    const res = await Fetch('http://localhost:8008/1/url-info/getAllData',
       {
         method: 'GET'
       });
@@ -197,7 +200,7 @@ export default class Main extends React.Component {
                         <a onClick={::this.submitUrl} className={buttonStyles}><i className='material-icons left'>library_add</i>Add URL</a>                        
                     </div>
                     <div className='col s12 m2 l4' onClick={() => $('#listUrlsModal').openModal()}>
-                      <a href='#' onClick={::this.getUrlList} className={buttonStyles}><i className='material-icons left'>list</i>Get URL List</a>
+                      <a href='#' onClick={::this.getUrlList} className={buttonStyles}><i className='material-icons left'>list</i>URL List</a>
                   </div>
                 </div>
               </div>
