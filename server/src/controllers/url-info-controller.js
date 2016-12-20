@@ -98,7 +98,7 @@ export class UrlInfoController extends BaseController {
 
     async postUrlData(params, response) {
         const pathQuery = GenericHelper.splitPathQuery(params.original_path_and_query_string);
-        const malUrlData = await this.fetchUrl(params.hostname_and_port);
+        const malUrlData = await this.fetchUrl(params.hostname_and_port);        
         let newEntryInfo;
 
         //Check to see if the hostname and port exist, and if so append path and query data appropriately

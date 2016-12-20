@@ -14,6 +14,7 @@
     },
     "example.com": {
         "paths": [
+            "/",
             "/badurl",
             "/badurl/hithere",
             "/badurl/hi"
@@ -36,6 +37,7 @@
     },
     "example.com:8400": {
         "paths": [
+            "/",
             "/hi",
             "/hey"
         ],
