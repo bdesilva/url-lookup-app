@@ -52,7 +52,6 @@ export default class Main extends React.Component {
     const url = Url.parse(this.state.url, true);
     const hostNameAndPort = url.host;
     const pathAndQueryString = UrlEncode(url.path);
-    console.log(pathAndQueryString);
     const res = await Fetch(`http://localhost:8080/1/url-info/${hostNameAndPort}/${pathAndQueryString}`,
       {
         method: 'GET'
@@ -74,8 +73,6 @@ export default class Main extends React.Component {
     const url = Url.parse(this.state.url, true);
     const hostNameAndPort = url.host;
     const pathAndQueryString = url.path;
-    console.log(hostNameAndPort);
-    console.log(pathAndQueryString);
 
     const res = await Fetch('http://localhost:8080/1/url-info',
       {
@@ -280,7 +277,7 @@ export default class Main extends React.Component {
           </div>
         </div>
         <div className="modal-footer">
-          <a href="#!" className=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <a href="#!" className=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
         </div>
       </div>
       </div >
