@@ -1,4 +1,5 @@
 import { RedisModel } from './redis-model';
+import { TestModel } from './test-model';
 
 export default class RepositoryFactory {
     static create(config) {
@@ -6,6 +7,10 @@ export default class RepositoryFactory {
             case 'redis': {
                 const {redisHost, redisPort} = config;
                 return new RedisModel({redisHost, redisPort});
+            }
+            case 'test': {
+                const {redisHost, redisPort} = config;
+                return new TestModel({redisHost, redisPort});
             }
         }
     }

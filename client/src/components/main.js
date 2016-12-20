@@ -36,6 +36,7 @@ export default class Main extends React.Component {
 
   handleUrlChange(event) {
     this.setState({ url: event.target.value, resultsPanel: false, defaultState: true });
+    (this.state.url === '') ? this.setState({ buttonDisabled: true }) : this.setState({ buttonDisabled: false });
   }
 
   formatUrl(event) {
@@ -43,8 +44,7 @@ export default class Main extends React.Component {
     if (!event.target.value.includes('http') || !event.target.value.includes('https')) {
       formattedUrl = event.target.value.replace(/http:\/\//g, '');
       this.setState({ url: `http:\/\/${formattedUrl}` });
-    }
-    (this.state.url === '') ? this.setState({ buttonDisabled: true }) : this.setState({ buttonDisabled: false });
+    }    
   }
 
   async searchUrl(event) {
@@ -197,7 +197,7 @@ export default class Main extends React.Component {
                         <a onClick={::this.submitUrl} className={buttonStyles}><i className='material-icons left'>library_add</i>Add URL</a>                        
                     </div>
                     <div className='col s12 m2 l4' onClick={() => $('#listUrlsModal').openModal()}>
-                      <a href='#' onClick={::this.getUrlList} className={buttonStyles}><i className='material-icons left'>list</i>Get URL List</a>
+                      <a href='#' onClick={::this.getUrlList} className={buttonStyles}><i className='material-icons left'>list</i>URL List</a>
                   </div>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export default class Main extends React.Component {
           </div>
         </div>
         <div className="modal-footer">
-          <a href="#!" className=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+          <a href="#!" className=" modal-action modal-close waves-effect waves-green btn-flat">OK</a>
         </div>
       </div>
       </div >

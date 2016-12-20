@@ -42,7 +42,6 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to the URL Lookup Admin Tool!</h1>
         <div className='row'>
         <div className='row' />
           <div className='col s12 m4 l2'>
