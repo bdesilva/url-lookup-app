@@ -27,14 +27,30 @@ export class UrlInfoController extends BaseController {
 
         if (entryAdded.updated) {
             this.dataStore.storeUrl(params.hostname_and_port, data);
-            resultData = this.buildOutputData(params, response.status = 200, { successMessage: 'Record updated.' });
+            resultData = this.buildOutputData(params, response.status = 200, { successMessage: 'Record updated.', data: data });
         } else if (entryAdded.new) {
             this.dataStore.storeUrl(params.hostname_and_port, data);
-            resultData = this.buildOutputData(params, response.status = 201, { successMessage: 'Record added.' });
+            resultData = this.buildOutputData(params, response.status = 201, { successMessage: 'Record added.', data: data });
         } else {
             resultData = this.buildOutputData(params, response.status = 422, { errorMessage: 'Trying to insert a duplicate record.' });
         }
         return resultData;
+    }
+
+    async getAllUrlData(response) {
+        let urlData = {};
+
+        try {
+            const data = await this.dataStore.getAllKeys();
+
+            await Promise.all(data.map(async (url) => {
+                urlData[url] = await this.fetchUrl(url);
+            }));
+            
+            return urlData;
+        } catch (err) {
+            console.log(`Get error: ${err}`);
+        }
     }
 
     async getUrlData(params, response) {
@@ -49,15 +65,20 @@ export class UrlInfoController extends BaseController {
                 if (malUrlData.fullPath[pathQuery.fullPath]) {
                     malUrlData.fullPath[pathQuery.fullPath].hits++;
                     this.setUrl(response, { updated: true }, params, malUrlData);
-                    return this.buildOutputData(params, response = 200, 
-                        { isMalicious: true, hits: malUrlData.fullPath[pathQuery.fullPath].hits});
+                    return this.buildOutputData(params, response = 200,
+                        { isMalicious: true, hits: malUrlData.fullPath[pathQuery.fullPath].hits });
                 }
 
                 //Analyze user path in depth by running a first pass to find an exact path                
                 if (malUrlData.paths.find(val => val === pathQuery.path))
                     return this.buildOutputData(params, response = 200, { isMalicious: true });
 
-                //Next, if no match is found, start splitting the path in order to find a possible match on a substring
+                //Next check to see if the root path exists in the known malicious list for this url
+                if (malUrlData.paths.find(val => val === '/')) {
+                    return this.buildOutputData(params, response = 200, { isMalicious: true });
+                }
+
+                //Last, if no match is found, start splitting the path in order to find a possible match on a substring
                 //starting with the first path substring
                 let urlPath = '';
                 let urlPathQuery = '';

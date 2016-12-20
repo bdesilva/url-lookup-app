@@ -14,8 +14,7 @@ export class Routes {
     await next;
   }
 
-  async login(next) {
-    console.log(this.request.body);
+  async login(next) {    
     const authorized = await controllers.loginController.authorize(this.request.body, this.response);
     this.body = authorized;
     await next;
@@ -29,6 +28,12 @@ export class Routes {
 
   async postUrlInfo(next) {
     const result = await controllers.urlInfoController.postUrlData(this.request.body, this.response);
+    this.body = result;
+    await next;
+  }
+
+  async getAllUrlInfo(next) {
+    const result = await controllers.urlInfoController.getAllUrlData(this.request.body, this.response);
     this.body = result;
     await next;
   }

@@ -26,7 +26,6 @@ export default class Login extends React.Component {
           headers: { "Content-Type": "application/json", Accept: 'application/json' }
         });
       const authorized = await res.json();
-      localStorage.setItem('authorized', authorized === true);
       authorized ? browserHistory.push('/main') : Materialize.toast('Invalid credentials', 1000);
     }
     this.setState({ username: '', password: '' });
