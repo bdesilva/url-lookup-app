@@ -34,7 +34,7 @@
             }
         }
     },
-    "example.com: 8400": {
+    "example.com:8400": {
         "paths": [
             "/hi",
             "/hey"

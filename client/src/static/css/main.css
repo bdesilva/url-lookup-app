@@ -116,3 +116,21 @@ p {
   align-items: center;
   justify-content: center;
 }
+
+.c-body {
+  background-color: lightgray;
+}
+
+.not-malicious p {
+  color: green;
+  padding-top: 2% !important
+}
+
+.malicious p {
+  color: red;  
+}
+
+.malicious-default p {
+  color: blue;
+}
+

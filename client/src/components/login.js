@@ -42,12 +42,15 @@ export default class Login extends React.Component {
   render() {
     return (
       <div>
-        <h1>Welcome to the login page!</h1>
+        <h1>Welcome to the URL Lookup Admin Tool!</h1>
         <div className='row'>
-          <div className='col s12 m4 l3'>
+        <div className='row' />
+          <div className='col s12 m4 l2'>
             {/* <!-- Left sidebar panel --> */}
           </div>
-
+           <div className='col s12 m4 l1'>
+            {/* <!-- Left sidebar panel --> */}
+          </div>
           <div className='col s12 m8 l9'>
             {/* <!-- Main content  --> */}
             <div className='row'>

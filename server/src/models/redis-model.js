@@ -22,6 +22,10 @@ export class RedisModel {
         return this.client.getAsync(key);
     }
 
+    getAllKeys() {
+        return this.client.keysAsync('*');
+    }
+
     //Insert default urls to redis cluster
     insertDefaultUrls(initialList) {
         Object.keys(initialList).forEach(key => {
