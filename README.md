@@ -1,8 +1,6 @@
 # url-lookup-app
 A multi-tiered URL lookup application.
 
-Please note that this site is a sandbox for React and Redux and I'm constantly adding improvements and testing different features in this site.
-
 ##Requirements:
 * [Docker](https://www.docker.com/products/overview) 1.13 or higher
 
